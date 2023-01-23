@@ -43,19 +43,13 @@ export default function App(){
 
     return(
         <ContainerScrollView>
-            
-
             <TxtSaldo>R$2.500,00</TxtSaldo>
-            <Text style={{fontSize:30, color:"#fff"}}>{vlInput}</Text>
-            
             <InputTxt value={vlInput} placeholder={"R$"} placeholderTextColor={"#fff"} keyboardType="numeric" onChangeText={(txt)=>editValue(txt)}/>
 
             <View style={{flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
-                <Btt colorBtt={"#157347"} onPress={(e)=>editValue(previewVl)}>ADICIONAR</Btt>
+                <Btt colorBtt={"#157347"}>ADICIONAR</Btt>
                 <Btt colorBtt={"#BB2D3B"}>REMOVER</Btt>
             </View>
-            
-
             <View style={{backgroundColor:"#205375", paddingHorizontal:20, paddingVertical:20}}>
                 <Card><TxtValor colorValor={false}>- R$ 145,00</TxtValor><Text style = {{color:"#EFEFEF", fontSize:20}}>15/01/2022</Text></Card>
                 <Card><TxtValor colorValor={true}>+ R$ 1.000,50</TxtValor><Text style = {{color:"#EFEFEF", fontSize:20}}>15/01/2022</Text></Card>
