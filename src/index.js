@@ -1,54 +1,59 @@
 import React, {useState, useEffect} from "react";
-import { View, Text, TextInput } from "react-native";
-import { ContainerScrollView, TxtSaldo, TxtValor, InputTxt, Btt, Card } from "./styles";
+import { View, Text} from "react-native";
+import { ContainerScrollView, TxtSaldo, TxtValor, InputTxt, Btt, Card, TextInputText } from "./styles";
 
 
 export default function App(){
+
     useEffect(()=>{
         const formatNumber = new Intl.NumberFormat('pt-BR', {
             style:'currency',
             currency:'BRL',
         })
 
-        setVlInput(formatNumber.format("0"));
-    }, [])
+        setVlInput(formatNumber.format('0'));
+        setVlSaldo(formatNumber.format('2000'));
+    }, []);
 
     const [vlInput, setVlInput] = useState(null);
+    const [vlSaldo, setVlSaldo] = useState(null);
 
-    function editValue(number){
+    function editValue(numberTyped){
         const formatNumber = new Intl.NumberFormat('pt-BR', {
             style:'currency',
             currency:'BRL',
         })
 
-        //PROCESSO DE DESCONVERTER E CONVERTER EM MONETÁRIO, PARA QUE A TEXT DO INPUT SEJA CONSTRUÍDA ENQUANTO O USUÁRIO DIGITA
-
-        let strNumber = "0";
-        let rgxp = /[0-9]/g;
-        let numbers = number.match(rgxp);
-        if(numbers){
-            strNumber = numbers.join('');
-        }
-        
-        if(strNumber.length == 0){
-            setVlInput(formatNumber.format("0"));
-        }else if(strNumber.length == 1){
-            setVlInput(formatNumber.format(`0.0${strNumber}`));
-        }else if(strNumber.length == 2){
-            setVlInput(formatNumber.format(`0.${strNumber}`));
+        if(numberTyped.length >= 3){
+            setVlInput(formatNumber.format(`${numberTyped.slice(-numberTyped.length, -2)}.${numberTyped.slice(-2)}`));
+        }else if(numberTyped.length == 1){
+            setVlInput(formatNumber.format(`0.0${numberTyped}`));
+        }else if(numberTyped.length == 2){
+            setVlInput(formatNumber.format(`0.${numberTyped}`));
         }else{
-            setVlInput(formatNumber.format(`${strNumber.slice(0, -2)}.${strNumber.slice(-2)}`));
+            setVlInput(formatNumber.format(0));
         }
+    }
+
+    function addValue(number){
+        console.log(number);
+    }
+
+    function removeValue(number){
+        console.log(number);
     }
 
     return(
         <ContainerScrollView>
-            <TxtSaldo>R$2.500,00</TxtSaldo>
-            <InputTxt value={vlInput} placeholder={"R$"} placeholderTextColor={"#fff"} keyboardType="numeric" onChangeText={(txt)=>editValue(txt)}/>
+
+            <TxtSaldo>{vlSaldo}</TxtSaldo>
+
+            <TextInputText>{vlInput}</TextInputText>
+            <InputTxt keyboardType="numeric" onChangeText={(txt)=>editValue(txt)}/>
 
             <View style={{flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
-                <Btt colorBtt={"#157347"}>ADICIONAR</Btt>
-                <Btt colorBtt={"#BB2D3B"}>REMOVER</Btt>
+                <Btt colorBtt={"#157347"} onPress={()=>addValue(vlInput)}>ADICIONAR</Btt>
+                <Btt colorBtt={"#BB2D3B"} onPress={()=>removeValue(vlInput)}>REMOVER</Btt>
             </View>
             <View style={{backgroundColor:"#205375", paddingHorizontal:20, paddingVertical:20}}>
                 <Card><TxtValor colorValor={false}>- R$ 145,00</TxtValor><Text style = {{color:"#EFEFEF", fontSize:20}}>15/01/2022</Text></Card>
