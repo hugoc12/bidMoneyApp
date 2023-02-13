@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import { View, Text} from "react-native";
-import { ContainerScrollView, TxtSaldo, TxtValor, InputTxt, Btt, Card, TextInputText } from "./styles";
+import { View, Text, Modal, TextInput} from "react-native";
+import { ContainerScrollView, TxtSaldo, TxtValor, InputTxt, Btt, Card, TextInputText, BttReset, ViewModal } from "./styles";
 
 
 export default function App(){
@@ -17,6 +17,7 @@ export default function App(){
 
     const [vlInput, setVlInput] = useState(null);
     const [vlSaldo, setVlSaldo] = useState(null);
+    const [modalReset, setModalReset] = useState(false);
 
     function editValue(numberTyped){
         const formatNumber = new Intl.NumberFormat('pt-BR', {
@@ -46,6 +47,15 @@ export default function App(){
     return(
         <ContainerScrollView>
 
+            <Modal visible={modalReset} animationType='slide' transparent={true}>
+                <ViewModal>
+                    <Text style={{color:'#EFEFEF', fontSize:30}}>NOVO SALDO</Text>
+                    <TextInput placeholder="R$" placeholderTextColor='#EFEFEF' style={{fontSize:25, color:'#EFEFEF', borderBottomWidth:1, borderBottomColor:'#EFEFEF'}} keyboardType="numeric"/>
+                    <Btt colorBtt={'#F66B0E'} style={{marginTop:20}} onPress={(e)=>setModalReset(false)}>OK</Btt>
+                
+                </ViewModal>
+            </Modal>
+
             <TxtSaldo>{vlSaldo}</TxtSaldo>
 
             <TextInputText>{vlInput}</TextInputText>
@@ -60,8 +70,13 @@ export default function App(){
                 <Card><TxtValor colorValor={true}>+ R$ 1.000,50</TxtValor><Text style = {{color:"#EFEFEF", fontSize:20}}>15/01/2022</Text></Card>
                 <Card><TxtValor colorValor={true}>+ R$ 1.200,00</TxtValor><Text style = {{color:"#EFEFEF", fontSize:20}}>15/01/2022</Text></Card>
                 <Card><TxtValor colorValor={false}>- R$ 22,45</TxtValor><Text style = {{color:"#EFEFEF", fontSize:20}}>15/01/2022</Text></Card>
+                <Card><TxtValor colorValor={false}>- R$ 145,00</TxtValor><Text style = {{color:"#EFEFEF", fontSize:20}}>15/01/2022</Text></Card>
+                <Card><TxtValor colorValor={true}>+ R$ 1.000,50</TxtValor><Text style = {{color:"#EFEFEF", fontSize:20}}>15/01/2022</Text></Card>
+                <Card><TxtValor colorValor={true}>+ R$ 1.200,00</TxtValor><Text style = {{color:"#EFEFEF", fontSize:20}}>15/01/2022</Text></Card>
                 
             </View>
+
+            <BttReset onPress={(e)=>setModalReset(true)}>RESET</BttReset>
         </ContainerScrollView>
     )
 }

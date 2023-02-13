@@ -69,3 +69,32 @@ export const TxtValor = styled.Text`
     font-size: 24px;
     font-weight: bold;
 `
+
+export const BttReset = styled.Text`
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    width: 80%;
+    margin:20px auto;
+    padding: 10px 0px;
+    border-radius: 20px;
+    background-color: ${colors.color3};
+`
+
+export const ViewModal = styled.View`
+    width: 100%;
+    height: 200px;
+    background-color: ${colors.color1};
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 100px;
+    padding-top: 10px;
+
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: ${colors.color4};
+`
