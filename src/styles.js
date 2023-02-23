@@ -42,6 +42,18 @@ export const InputTxt = styled.TextInput`
     top: 102px;
 `
 
+export const InputTxt2 = styled.TextInput`
+    color: ${colors.color4};
+    font-size: 30px;
+    width: 70%;
+    text-align: center;
+    opacity: 0;
+    position: absolute;
+    top: 25px;
+    border-bottom-width: 2px;
+    border-bottom-color: #fff;
+`
+
 export const Btt = styled.Text`
     width: 40%;
     padding: 10px 0px;
