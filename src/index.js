@@ -12,7 +12,7 @@ export default function App(){
         })
 
         setVlInput(formatNumber.format('0'));
-        setVlSaldo(formatNumber.format('2000'));
+        setVlSaldo(formatNumber.format('200'));
     }, []);
 
     const [vlInput, setVlInput] = useState(null);
@@ -20,13 +20,7 @@ export default function App(){
     const [vlInputReset, setVlReset] = useState(null);
     const [modalReset, setModalReset] = useState(false);
 
-    const [postedValues, setPostedValues] = useState([
-        {type:false, value:'R$ 1.250,25', date:'22/02/23'},
-        {type:true, value:'R$ 800,20', date:'22/02/23'},
-        {type:false, value:'R$ 20,30', date:'22/02/23'},
-        {type:false, value:'R$ 130,20', date:'22/02/23'},
-        {type:true, value:'R$ 200,00', date:'22/02/23'}
-    ])
+    const [postedValues, setPostedValues] = useState([]);
 
     function editValue(numberTyped){
         const formatNumber = new Intl.NumberFormat('pt-BR', {
@@ -73,13 +67,19 @@ export default function App(){
             currency:'BRL'
         })
 
+        let date = new Date();
         let value = number ? number.replace(/\D/g, '').replace(/\s/g, '') : false;
         let value2 = vlSaldo ? vlSaldo.replace(/\D/g, '').replace(/\s/g, '') : false;
 
         value = `${value.slice(-value.length, -2)}.${value.slice(-2)}`;
         value2 = `${value2.slice(-value2.length, -2)}.${value2.slice(-2)}`;
 
+        if(vlSaldo[0] == '-'){
+            value2 = Number(value2) - (Number(value2) * 2);
+        }
+
         setVlSaldo(formatNumber.format(Number(value2) + Number(value)));
+        setPostedValues([{type:true, value:`${value}`, date:`${date.getHours(date)}h${date.getMinutes(date)}m - ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`}, ...postedValues])
         
     }
 
@@ -89,13 +89,19 @@ export default function App(){
             currency:'BRL'
         })
 
+        let date = new Date();
         let value = number ? number.replace(/\D/g, '').replace(/\s/g, '') : false;
         let value2 = vlSaldo ? vlSaldo.replace(/\D/g, '').replace(/\s/g, '') : false;
 
         value = `${value.slice(-value.length, -2)}.${value.slice(-2)}`;
         value2 = `${value2.slice(-value2.length, -2)}.${value2.slice(-2)}`;
 
+        if(vlSaldo[0] == '-'){
+            value2 = Number(value2) - (Number(value2) * 2);
+        }
+
         setVlSaldo(formatNumber.format(Number(value2) - Number(value)));
+        setPostedValues([{type:false, value:`${value}`, date:`${date.getHours(date)}h${date.getMinutes(date)}m - ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`}, ...postedValues])
         
     }
 
@@ -122,7 +128,6 @@ export default function App(){
             </View>
             <View style={{backgroundColor:"#205375", paddingHorizontal:20, paddingVertical:20}}>
                 {postedValues.map((el, index)=>{
-                    console.log(el.type);
                     return <Card key={index}><TxtValor colorValor={el.type}>{el.type ? '+':'-'} {el.value}</TxtValor><Text style = {{color:"#EFEFEF", fontSize:20}}>{el.date}</Text></Card>
                 })}
             </View>
