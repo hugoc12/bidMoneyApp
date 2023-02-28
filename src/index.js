@@ -52,11 +52,6 @@ export default function App(){
     }
 
     function addValue(number){
-        const formatNumber = new Intl.NumberFormat('pt-BR', {
-            style:'currency',
-            currency:'BRL'
-        })
-
         let date = new Date();
         let value = number ? number.replace(/\D/g, '').replace(/\s/g, '') : false;
         let value2 = vlSaldo ? vlSaldo.replace(/\D/g, '').replace(/\s/g, '') : false;
@@ -75,11 +70,6 @@ export default function App(){
     }
 
     function removeValue(number){
-        const formatNumber = new Intl.NumberFormat('pt-BR', {
-            style:'currency',
-            currency:'BRL'
-        })
-
         let date = new Date();
         let value = number ? number.replace(/\D/g, '').replace(/\s/g, '') : false;
         let value2 = vlSaldo ? vlSaldo.replace(/\D/g, '').replace(/\s/g, '') : false;
@@ -120,7 +110,7 @@ export default function App(){
             </View>
             <View style={{backgroundColor:"#205375", paddingHorizontal:20, paddingVertical:20}}>
                 {postedValues.map((el, index)=>{
-                    return <Card key={index}><TxtValor colorValor={el.type}>{el.type ? '+':'-'} {el.value}</TxtValor><Text style = {{color:"#EFEFEF", fontSize:20}}>{el.date}</Text></Card>
+                    return <Card key={index}><TxtValor colorValor={el.type}>{el.type ? '+':'-'} {el.value}</TxtValor><Text style = {{color:"#EFEFEF", fontSize:18}}>{el.date}</Text></Card>
                 })}
             </View>
 

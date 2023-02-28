@@ -78,7 +78,7 @@ export const Card = styled.View`
 `
 export const TxtValor = styled.Text`
     color: ${(props)=>props.colorValor ? "#37ed2a": "#f23a3a"};
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
 `
 
