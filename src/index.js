@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { View, Text, Modal, TextInput} from "react-native";
 import { ContainerScrollView, TxtSaldo, TxtValor, InputTxt, InputTxt2, Btt, Card, TextInputText, BttReset, ViewModal } from "./styles";
 
@@ -20,44 +20,34 @@ export default function App(){
     const [vlInputReset, setVlReset] = useState(null);
     const [modalReset, setModalReset] = useState(false);
 
+    const inputVlRef = useRef(undefined);
+    const inputVlResetRef = useRef(undefined);
+
     const [postedValues, setPostedValues] = useState([]);
 
-    function editValue(numberTyped){
-        const formatNumber = new Intl.NumberFormat('pt-BR', {
-            style:'currency',
-            currency:'BRL',
-        })
+    const formatNumber = new Intl.NumberFormat('pt-BR', {
+        style:'currency',
+        currency:'BRL',
+    })
+
+    function editValue(numberTyped, setValue){
 
         if(numberTyped.length >= 3){
-            setVlInput(formatNumber.format(`${numberTyped.slice(-numberTyped.length, -2)}.${numberTyped.slice(-2)}`));
+            setValue(formatNumber.format(`${numberTyped.slice(-numberTyped.length, -2)}.${numberTyped.slice(-2)}`));
         }else if(numberTyped.length == 1){
-            setVlInput(formatNumber.format(`0.0${numberTyped}`));
+            setValue(formatNumber.format(`0.0${numberTyped}`));
         }else if(numberTyped.length == 2){
-            setVlInput(formatNumber.format(`0.${numberTyped}`));
+            setValue(formatNumber.format(`0.${numberTyped}`));
         }else{
-            setVlInput(formatNumber.format(0));
+            setValue(formatNumber.format(0));
         }
     }
 
-    function editValueReset(numberTyped){
-        const formatNumber = new Intl.NumberFormat('pt-BR', {
-            style:'currency',
-            currency:'BRL'
-        })
-
-        if(numberTyped.length >= 3){
-            setVlReset(formatNumber.format(`${numberTyped.slice(-numberTyped.length, -2)}.${numberTyped.slice(-2)}`));
-        }else if(numberTyped.length == 1){
-            setVlReset(formatNumber.format(`0.0${numberTyped}`));
-        }else if(numberTyped.length == 2){
-            setVlReset(formatNumber.format(`0.${numberTyped}`));
-        }else{
-            setVlReset(formatNumber.format(0));
-        }
-    }
-
-    function defValue(number){
+    function defValueSaldo(number){
         setVlSaldo(number);
+        setPostedValues([]);
+        setVlReset(formatNumber.format('0'));
+        inputVlResetRef.current.clear();
         setModalReset(false);
     }
 
@@ -75,12 +65,13 @@ export default function App(){
         value2 = `${value2.slice(-value2.length, -2)}.${value2.slice(-2)}`;
 
         if(vlSaldo[0] == '-'){
-            value2 = Number(value2) - (Number(value2) * 2);
+            value2 = Number(value2) * -1;
         }
 
         setVlSaldo(formatNumber.format(Number(value2) + Number(value)));
         setPostedValues([{type:true, value:`${value}`, date:`${date.getHours(date)}h${date.getMinutes(date)}m - ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`}, ...postedValues])
-        
+        setVlInput(formatNumber.format('0'));
+        inputVlRef.current.clear();
     }
 
     function removeValue(number){
@@ -97,12 +88,13 @@ export default function App(){
         value2 = `${value2.slice(-value2.length, -2)}.${value2.slice(-2)}`;
 
         if(vlSaldo[0] == '-'){
-            value2 = Number(value2) - (Number(value2) * 2);
+            value2 = Number(value2) * -1;
         }
 
         setVlSaldo(formatNumber.format(Number(value2) - Number(value)));
         setPostedValues([{type:false, value:`${value}`, date:`${date.getHours(date)}h${date.getMinutes(date)}m - ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`}, ...postedValues])
-        
+        setVlInput(formatNumber.format('0'));
+        inputVlRef.current.clear();
     }
 
     return(
@@ -111,8 +103,8 @@ export default function App(){
             <Modal visible={modalReset} animationType='slide' transparent={true}>
                 <ViewModal>
                     <Text style={{color:'#EFEFEF', fontSize:30, width:250, borderBottomWidth:1, borderBottomColor:'#fff', textAlign:'center'}}>{vlInputReset}</Text>
-                    <InputTxt2 placeholder="R$" placeholderTextColor='#EFEFEF' keyboardType="numeric" onChangeText={(text)=>editValueReset(text)}/>
-                    <Btt colorBtt={'#F66B0E'} style={{marginTop:20}} onPress={(e)=>defValue(vlInputReset)}>OK</Btt>
+                    <InputTxt2 ref={inputVlResetRef} placeholder="R$" placeholderTextColor='#EFEFEF' keyboardType="numeric" onChangeText={(text)=>editValue(text, setVlReset)}/>
+                    <Btt colorBtt={'#F66B0E'} style={{marginTop:20}} onPress={(e)=>defValueSaldo(vlInputReset)}>OK</Btt>
                 
                 </ViewModal>
             </Modal>
@@ -120,7 +112,7 @@ export default function App(){
             <TxtSaldo>{vlSaldo}</TxtSaldo>
 
             <TextInputText>{vlInput}</TextInputText>
-            <InputTxt keyboardType="numeric" onChangeText={(txt)=>editValue(txt)}/>
+            <InputTxt ref={inputVlRef} keyboardType="numeric" onChangeText={(txt)=>editValue(txt, setVlInput)}/>
 
             <View style={{flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
                 <Btt colorBtt={"#157347"} onPress={()=>addValue(vlInput)}>ADICIONAR</Btt>
