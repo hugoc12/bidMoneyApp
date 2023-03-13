@@ -1,45 +1,78 @@
-import React, {useState, useEffect, useRef} from "react";
-import { View, Text, Modal, TextInput} from "react-native";
-import { ContainerScrollView, TxtSaldo, TxtValor, InputTxt, InputTxt2, Btt, Card, TextInputText, BttReset, ViewModal } from "./styles";
+import React, {useState, useRef} from "react";
+import { View, Text, Modal} from "react-native";
+import { ContainerScrollView, TxtSaldo, TxtValor, InputTxt, InputTxt2, Btt, Card, BttReset, ViewModal } from "./styles";
 
+let numbers = [];
+
+const formatNumber = new Intl.NumberFormat('pt-BR', {
+    style:'currency',
+    currency:'BRL',
+})
 
 export default function App(){
-
-    useEffect(()=>{
-        const formatNumber = new Intl.NumberFormat('pt-BR', {
-            style:'currency',
-            currency:'BRL',
-        })
-
-        setVlInput(formatNumber.format('0'));
-        setVlSaldo(formatNumber.format('200'));
-    }, []);
-
-    const [vlInput, setVlInput] = useState(null);
-    const [vlSaldo, setVlSaldo] = useState(null);
+    
+    const [vlInput, setVlInput] = useState('R$ 0,00');
+    const [vlSaldo, setVlSaldo] = useState(formatNumber.format('200'));
     const [vlInputReset, setVlReset] = useState(null);
     const [modalReset, setModalReset] = useState(false);
 
-    const inputVlRef = useRef(undefined);
-    const inputVlResetRef = useRef(undefined);
+    const inputVlRef = useRef(null);
+    const inputVlResetRef = useRef(null);
 
     const [postedValues, setPostedValues] = useState([]);
 
-    const formatNumber = new Intl.NumberFormat('pt-BR', {
-        style:'currency',
-        currency:'BRL',
-    })
+    function editValue(key){
 
-    function editValue(numberTyped, setValue){
+        if(key == 'Backspace'){
+            numbers.pop();
+        }else if(RegExp(/[0-9]/g).test(key)){
+            if(key == '0' && numbers.length == 0){
+                return // não adicionar
+            }else{
+                numbers.push(key);
+            }
+        }
 
-        if(numberTyped.length >= 3){
-            setValue(formatNumber.format(`${numberTyped.slice(-numberTyped.length, -2)}.${numberTyped.slice(-2)}`));
-        }else if(numberTyped.length == 1){
-            setValue(formatNumber.format(`0.0${numberTyped}`));
-        }else if(numberTyped.length == 2){
-            setValue(formatNumber.format(`0.${numberTyped}`));
+        if(numbers.length <= 8){
+            switch(numbers.length){
+                case 0:
+                    setVlInput('R$ 0,00');
+                    break;
+                case 1:
+                    setVlInput(`R$ 0,0${numbers[0]}`);
+                    //numberMoney = `R$ 0,0${numbers[0]}`;
+                    break;
+                case 2:
+                    setVlInput(`R$ 0,${numbers.join('')}`);
+                    //numberMoney = `R$ 0,${numbers.join('')}`;
+                    break;
+                case 3:
+                    setVlInput(`R$ ${numbers[0]},${numbers.slice(1).join('')}`);
+                    //numberMoney = `R$ ${numbers[0]},${numbers.slice(1).join('')}`;
+                    break;
+                case 4:
+                    setVlInput(`R$ ${numbers.slice(0, 2).join('')},${numbers.slice(2).join('')}`);
+                    //numberMoney = `R$ ${numbers.slice(0, 2).join('')},${numbers.slice(2).join('')}`;
+                    break;
+                case 5:
+                    setVlInput(`R$ ${numbers.slice(0, 3).join('')},${numbers.slice(3).join('')}`);
+                    //numberMoney = `R$ ${numbers.slice(0, 3).join('')},${numbers.slice(3).join('')}`;
+                    break;
+                case 6:
+                    setVlInput(`R$ ${numbers[0]}.${numbers.slice(1,4).join('')},${numbers.slice(4).join('')}`);
+                    //numberMoney = `R$ ${numbers[0]}.${numbers.slice(1,4).join('')},${numbers.slice(4).join('')}`;
+                    break;
+                case 7:
+                    setVlInput(`R$ ${numbers.slice(0, 2).join('')}.${numbers.slice(2,5).join('')},${numbers.slice(5).join('')}`);
+                    //numberMoney = `R$ ${numbers.slice(0, 2).join('')}.${numbers.slice(2,5).join('')},${numbers.slice(5).join('')}`;
+                    break;
+                case 8:
+                    setVlInput(`R$ ${numbers.slice(0,3).join('')}.${numbers.slice(3,6).join('')},${numbers.slice(6).join('')}`);
+                    //numberMoney = `R$ ${numbers.slice(0,3).join('')}.${numbers.slice(3,6).join('')},${numbers.slice(6).join('')}`;
+                    break;
+            }
         }else{
-            setValue(formatNumber.format(0));
+            numbers.pop()
         }
     }
 
@@ -101,8 +134,7 @@ export default function App(){
 
             <TxtSaldo>{vlSaldo}</TxtSaldo>
 
-            <TextInputText>{vlInput}</TextInputText>
-            <InputTxt ref={inputVlRef} keyboardType="numeric" onChangeText={(txt)=>editValue(txt, setVlInput)}/>
+            <InputTxt  value={vlInput} keyboardType="numeric" onKeyPress={(e)=>editValue(e.nativeEvent.key)}/>
 
             <View style={{flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
                 <Btt colorBtt={"#157347"} onPress={()=>addValue(vlInput)}>ADICIONAR</Btt>
