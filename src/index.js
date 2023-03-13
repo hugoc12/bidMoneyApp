@@ -40,35 +40,27 @@ export default function App(){
                     break;
                 case 1:
                     setVlInput(`R$ 0,0${numbers[0]}`);
-                    //numberMoney = `R$ 0,0${numbers[0]}`;
                     break;
                 case 2:
                     setVlInput(`R$ 0,${numbers.join('')}`);
-                    //numberMoney = `R$ 0,${numbers.join('')}`;
                     break;
                 case 3:
                     setVlInput(`R$ ${numbers[0]},${numbers.slice(1).join('')}`);
-                    //numberMoney = `R$ ${numbers[0]},${numbers.slice(1).join('')}`;
                     break;
                 case 4:
                     setVlInput(`R$ ${numbers.slice(0, 2).join('')},${numbers.slice(2).join('')}`);
-                    //numberMoney = `R$ ${numbers.slice(0, 2).join('')},${numbers.slice(2).join('')}`;
                     break;
                 case 5:
                     setVlInput(`R$ ${numbers.slice(0, 3).join('')},${numbers.slice(3).join('')}`);
-                    //numberMoney = `R$ ${numbers.slice(0, 3).join('')},${numbers.slice(3).join('')}`;
                     break;
                 case 6:
                     setVlInput(`R$ ${numbers[0]}.${numbers.slice(1,4).join('')},${numbers.slice(4).join('')}`);
-                    //numberMoney = `R$ ${numbers[0]}.${numbers.slice(1,4).join('')},${numbers.slice(4).join('')}`;
                     break;
                 case 7:
                     setVlInput(`R$ ${numbers.slice(0, 2).join('')}.${numbers.slice(2,5).join('')},${numbers.slice(5).join('')}`);
-                    //numberMoney = `R$ ${numbers.slice(0, 2).join('')}.${numbers.slice(2,5).join('')},${numbers.slice(5).join('')}`;
                     break;
                 case 8:
                     setVlInput(`R$ ${numbers.slice(0,3).join('')}.${numbers.slice(3,6).join('')},${numbers.slice(6).join('')}`);
-                    //numberMoney = `R$ ${numbers.slice(0,3).join('')}.${numbers.slice(3,6).join('')},${numbers.slice(6).join('')}`;
                     break;
             }
         }else{
