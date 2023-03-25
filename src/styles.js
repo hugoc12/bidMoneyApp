@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import { TextInput, Button } from 'react-native';
 
 const colors = {
     color1:"#112B3C",
@@ -7,10 +6,6 @@ const colors = {
     color3:"#F66B0E",
     color4:"#EFEFEF",
 }
-
-export const ContainerScrollView = styled.ScrollView`
-    background-color: ${colors.color1};
-`
 
 export const TxtSaldo = styled.Text`
     color: ${colors.color4};
@@ -31,15 +26,13 @@ export const TextInputText = styled.Text`
 `
 
 export const InputTxt = styled.TextInput`
-    color: ${colors.color4};
     font-size: 24px;
-    width: 70%;
-    margin:0px auto 30px auto;
+    color: #fff;
+    width: 300px;
+    margin: 10px auto;
+    border-bottom-width: 1px;
+    border-bottom-color: #fff;
     text-align: center;
-    opacity: 0;
-    position: absolute;
-    left: 60px;
-    top: 102px;
 `
 
 export const InputTxt2 = styled.TextInput`
@@ -66,16 +59,6 @@ export const Btt = styled.Text`
     font-size: 20px;
 `
 
-export const Card = styled.View`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    border-bottom-width: 1px;
-    border-bottom-color: ${colors.color4};
-    
-`
 export const TxtValor = styled.Text`
     color: ${(props)=>props.colorValor ? "#37ed2a": "#f23a3a"};
     font-size: 20px;
