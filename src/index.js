@@ -137,7 +137,7 @@ export default function App(){
             </Modal>
 
             <TxtSaldo>{vlSaldo}</TxtSaldo>
-            <InputTxt value={vlInput} placeholder='R$ 0,00' placeholderTextColor='#fff' keyboardType="number-pad" onKeyPress={(e)=>formatingCurrency(e.nativeEvent.key, setVlInput)}></InputTxt>
+            <InputTxt maxLength={vlInput.length} value={vlInput} placeholder='R$ 0,00' placeholderTextColor='#fff' keyboardType="number-pad" onKeyPress={(e)=>{e.stopPropagation(); formatingCurrency(e.nativeEvent.key, setVlInput)}}></InputTxt>
 
             <View style={{flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
                 <Btt colorBtt={"#157347"} onPress={()=>defineNewValue(vlInput, true)}>ADICIONAR</Btt>
