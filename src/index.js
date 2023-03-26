@@ -131,13 +131,13 @@ export default function App(){
 
             <Modal visible={modalReset} animationType='slide' transparent={true}>
                 <ViewModal>
-                    <InputTxt value={vlInputReset} placeholder='R$ 0,00' placeholderTextColor='#fff' keyboardType="numeric" onKeyPress={(e)=>formatingCurrency(e.nativeEvent.key, setVlReset)}></InputTxt>
+                    <InputTxt maxLength={vlInputReset.length} value={vlInputReset} placeholder='R$ 0,00' placeholderTextColor='#fff' keyboardType="numeric" onKeyPress={(e)=>formatingCurrency(e.nativeEvent.key, setVlReset)}></InputTxt>
                     <Btt colorBtt={'#F66B0E'} style={{marginTop:20}} onPress={(e)=>defValueReset(vlInputReset)}>OK</Btt>
                 </ViewModal>
             </Modal>
 
             <TxtSaldo>{vlSaldo}</TxtSaldo>
-            <InputTxt defaultValue={'R$ 0,00'} maxLength={vlInput.length} value={vlInput} placeholder='R$ 0,00' placeholderTextColor='#fff' keyboardType="number-pad" onKeyPress={(e)=>{e.stopPropagation(); formatingCurrency(e.nativeEvent.key, setVlInput)}}></InputTxt>
+            <InputTxt maxLength={vlInput.length} value={vlInput} placeholder='R$ 0,00' placeholderTextColor='#fff' keyboardType="number-pad" onKeyPress={(e)=>{e.stopPropagation(); formatingCurrency(e.nativeEvent.key, setVlInput)}}></InputTxt>
 
             <View style={{flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
                 <Btt colorBtt={"#157347"} onPress={()=>defineNewValue(vlInput, true)}>ADICIONAR</Btt>
